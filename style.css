@@ -1,0 +1,10 @@
+@charset "utf-8";
+
+.required {
+	color: #E74C3C;
+	font-style: italic;
+	font-size: 12px;
+}
+.error {
+	color: #E74C3C;
+}
