@@ -1,22 +1,29 @@
 <?php
 session_start();
-session_unset();
-$name = '名前:' . htmlspecialchars($_POST['name']) . "\n";
-$mail = 'メール:' . htmlspecialchars($_POST['mail']) . "\n";
-$select = 'セレクト:' . htmlspecialchars($_POST['select']) . "\n";
-$checks = $_POST['check'];
-$checkData = 'チェック:';
-foreach($checks as $check) {
-	$checkData = $checkData . htmlspecialchars($check) . ', ';
+if(!empty($_SESSION['post'])) {
+	$post = $_SESSION['post'];
+	$name = '名前:' . $post['name'] . "\n";
+	$mail = 'メール:' . $post['mail'] . "\n";
+	$select = 'セレクト:' . $post['select'] . "\n";
+	$checks = $post['check'];
+	$checkData = 'チェック:';
+	foreach($checks as $check) {
+		$checkData = $checkData . $check . ', ';
+	}
+	$radio = "\n" . 'ラジオ:' . $post['radio'] . "\n";
+	$textarea = 'テキストエリア:' . $post['textarea'] . "\n";
+	session_unset();
+
+	// 保存内容の作成
+	$fileData = $name . $mail . $select . $checkData . $radio . $textarea . "\n";
+	// 入力内容の保存
+	$fp = fopen('data.txt', 'a');
+	if(flock($fp, LOCK_SH)){
+		fwrite($fp, $fileData);
+		flock($fp, LOCK_UN);
+	}
+	fclose($fp);
 }
-$radio =  "\n" . 'ラジオ:' . htmlspecialchars($_POST['radio']) . "\n";
-$textarea = 'テキストエリア:' . htmlspecialchars($_POST['textarea']) . "\n";
-
-$file = 'data.txt';
-$fileData = file_get_contents($file);
-$fileData = $fileData . $name . $mail . $select . $checkData . $radio . $textarea . "\n";
-file_put_contents($file, $fileData);
-
 ?>
 <!DOCTYPE HTML>
 <html lang="ja">

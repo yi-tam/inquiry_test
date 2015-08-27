@@ -1,17 +1,6 @@
 <?php
 session_start();
 $post = $_SESSION['post'];
-$name = htmlspecialchars($post['name']);
-$mail = htmlspecialchars($post['mail']);
-$select = htmlspecialchars($post['select']);
-$checks = $post['check'];
-$radio = htmlspecialchars($post['radio']);
-$textarea = htmlspecialchars($post['textarea']);
-
-//if($name == '' ||$mail == '') {
-//	header('location: index.php');
-//	exit();
-//}
 ?>
 <!DOCTYPE HTML>
 <html lang="ja">
@@ -23,21 +12,21 @@ $textarea = htmlspecialchars($post['textarea']);
 <form action="complete.php" method="post">
 	<dl class="form-item">
 		<dt>名前</dt>
-		<dd><?php echo $name; ?></dd>
+		<dd><?php echo htmlspecialchars($post['name']); ?></dd>
 	</dl>
 	<dl class="form-item">
 		<dt>メール</dt>
-		<dd><?php echo $mail; ?></dd>
+		<dd><?php echo htmlspecialchars($post['mail']); ?></dd>
 	</dl>
 	<dl class="form-item">
 		<dt>選択</dt>
-		<dd><?php echo $select; ?></dd>
+		<dd><?php echo htmlspecialchars($post['select']); ?></dd>
 	</dl>
 	<dl class="form-item">
 		<dt>チェック</dt>
 		<dd>
 <?php
-foreach($checks as $check) {
+foreach($post['check'] as $check) {
 	echo htmlspecialchars($check) . ' ';
 }
 ?>
@@ -45,28 +34,14 @@ foreach($checks as $check) {
 	</dl>
 	<dl class="form-item">
 		<dt>ラジオ</dt>
-		<dd><?php echo $radio; ?></dd>
+		<dd><?php echo htmlspecialchars($post['radio']); ?></dd>
 	</dl>
 	<dl class="form-item">
 		<dt>テキストエリア</dt>
-		<dd><?php echo $textarea; ?></dd>
+		<dd><?php echo htmlspecialchars($post['textarea']); ?></dd>
 	</dl>
 	<div class="form-btn">
-<input type="hidden" name="name" value="<?php echo $name; ?>">
-<input type="hidden" name="mail" value="<?php echo $mail; ?>">
-<input type="hidden" name="select" value="<?php echo $select; ?>">
-<?php
-$i = 0;
-foreach($checks as $check) {
-	if($check != '') {
-		echo '<input type="hidden" name="check[' . $i . ']" value="' . htmlspecialchars($check) . '">';
-		$i++;
-	}
-}
-?>
-<input type="hidden" name="radio" value="<?php echo $radio; ?>">
-<input type="hidden" name="textarea" value="<?php echo $textarea; ?>">
-		<button onClick="history.back(); return false;">戻る</button>
+		<button onClick="location.href = './index.php'; return false;">戻る</button>
 		<input type="submit" value="送信">
 	</div>
 </form>
